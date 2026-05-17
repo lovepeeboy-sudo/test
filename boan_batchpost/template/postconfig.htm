@@ -1,0 +1,264 @@
+<!--{eval include template('boan_batchpost:header_common');}-->
+<!--{eval include template('boan_batchpost:header');}--> 
+<style>
+	.commit{
+		padding:7px 10px !important;
+	}
+	.d:hover{
+		color:#000;
+	}
+	
+</style>
+<script src="{$_G['siteurl']}source/plugin/boan_batchpost/js/jquery-1.11.0.min.js"></script>
+<script>
+	var boan_jq=$.noConflict();
+</script>
+<div class="fl" style="padding:0px 16px;">
+
+<form id="frm" method="post" autocomplete="off" action="plugin.php?id=boan_batchpost:batchpost">
+    <input type="hidden" name="formhash" value="{FORMHASH}">
+    <input type="hidden" id="reload" name="reload" value="0">
+    <input type="hidden"  id="onekeysubmit" name="onekeysubmit" value="0"/>
+    <h2 class="tbmu mbm">{lang boan_batchpost:reception_setting}</h2>
+    <table cellspacing="0" cellpadding="0" class="tfm">
+        <tbody>
+        	<tr>
+            	<th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_userlist');}--></th>
+                <td>
+                	<input type="text"  name="userlist" value="{$userlist}" />
+                </td>
+                <td class="commit">
+                    <span class="d"> <!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_userlist_comment');}--></span>
+                </td>
+            </tr>
+            <tr>
+            	<th> <!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_begintime');}--></th>
+                <td>
+                	<input type="text" name="begintime" value="{$begintime}"/>
+                </td>
+                <td class="commit">
+                    <span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_begintime_comment');}--> </span>
+                </td>
+            </tr>
+            
+            <tr>
+            	<th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_posttime');}--></th>
+                <td>
+                	<input type="text"  name="posttime" value="{$posttime}" />
+                </td>
+                <td class="commit">
+                    <span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_posttime_comment');}--></span>
+                </td>
+            </tr>
+            
+            <tr>
+            	<th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_price');}--></th>
+                <td>
+                	<input type="text"  name="price" value="{$price}" />
+                </td>
+                <td class="commit">
+                    <span class="d"> <!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_price_comment');}--></span>
+                </td>
+            </tr>
+            
+            <tr>
+            	<th> <!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_tags');}-->:</th>
+                <td>
+                	<input type="text"  name="tags" value="{$tags}" />
+                </td>
+                <td class="commit">
+                    <span class="d"> <!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_tags_comment');}--></span>
+                </td>
+            </tr>
+            
+            <tr>
+            	<th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_tagct');}-->:</th>
+                <td>
+                	<input type="text" name="tagct" value="{$tagct}" />
+                </td>
+                <td class="commit">
+                    <span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_tagct_comment');}--></span>
+                </td>
+            </tr>
+            
+            <tr>
+            	<th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_subject');}-->:</th>
+                <td>
+                	<input type="text"  name="subject" value="{$subject}" />
+                </td>
+                <td class="commit">
+                    <span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_subject_comment');}--></span>
+                </td>
+            </tr>
+            <tr>
+            	<th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_forum');}-->:</th>
+                <td>
+                  {$forumlist}
+                </td>
+                <td class="commit">
+                	<span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_forum_comment');}--></span>
+                </td>
+            </tr>
+            <script type="text/javascript">
+				 $('forumlist').onchange=function(){
+                   $('reload').value = 1;
+				   setTimeout("$('frm').submit();",100);
+                   
+                }
+            </script>
+            <!--{if !empty($typelist)}-->
+                <tr>
+                    <th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_typeid');}-->:</th>
+                    <td>
+                    	{$typelist}
+                    </td>
+                    <td class="commit">
+	                    <span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_typeid_comment');}--></span>
+                    </td>
+                </tr>
+            <!--{/if}-->
+            
+            <!--{if !empty($sorts)}-->
+              <tr>
+                  <th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_sortid');}-->:</th>
+                  <td>
+                      {$sorts}
+                  </td>
+                  <td class="commit">
+                  	 <span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_sortid_comment');}--></span>
+                  </td>
+               </tr>
+               
+               <tr>
+               	 <td colspan="3">
+                 	<!--{eval include template('boan_batchpost:post_sortoption');}-->
+                 </td>
+               </tr>
+                <script type="text/javascript">
+					 $('sortid').onchange=function(){
+					   $('reload').value = 1;
+					   setTimeout("$('frm').submit();",100);
+					   
+					}
+           	   </script>
+            <!--{/if}-->
+          	<tr>
+                <th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_message');}-->:</th>
+                <td>
+                    <textarea name="message" cols="40" rows="5" ondblclick="textareasize(this, 1)" title="{lang boan_batchpost:reception_textarea}">{$message}</textarea>
+                </td>
+                <td class="commit">
+                	<span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_message_comment');}--></span>
+                </td>
+            </tr>
+            <tr>
+                <th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_attprice');}-->:</th>
+                <td>
+                   <input type="text"  name="attprice" value="{$attprice}" />
+                </td>
+                <td class="commit">
+                	<span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_attprice_comment');}--></span>
+                </td>
+            </tr>
+            
+            <tr>
+                <th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_readperm');}-->:</th>
+                <td>
+                   {$readperm}
+                </td>
+                <td class="commit">
+	                <span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_readperm_comment');}--></span>
+                </td>
+            </tr>
+            
+            <tr>
+                <th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_attreadaccess');}-->:</th>
+                <td>
+                   {$groupreadaccess}
+                </td>
+                <td class="commit">
+	                <span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_attreadaccess_comment');}--></span>
+                </td>
+            </tr>
+            <tr>
+                <th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_watermethod');}-->:</th>
+                <td>
+                   {$watermethod}
+                </td>
+                <td class="commit">
+	                 <span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_watermethod_comment');}--></span>
+                </td>
+            </tr>
+            
+            <tr>
+                <th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_waterMinWH');}-->:</th>
+                <td>
+                   <input type="text"  name="waterminw" value="{$waterminw}" / style="width: 36px;
+    margin-right: 10px;">X <input type="text"  name="waterminh" value="{$waterminh}"  style="width: 36px;
+    margin-left: 10px;"/>
+                </td>
+                <td class="commit">
+	                 <span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_waterMinWH_comment');}--></span>
+                </td>
+            </tr>
+            <tr>
+                <th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_pmethod');}-->:</th>
+                <td>
+                   {$pmethod}
+                </td>
+                <td class="commit">
+	                 <span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_pmethod_comment');}--></span>
+                </td>
+            </tr>
+            
+             <tr>
+                <th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_limitW');}-->:</th>
+                <td>
+                   <input type="text"  name="limitW" value="{$limitW}" />
+                </td>
+                 <td class="commit">
+	                 <span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_limitW_comment');}--></span>
+                </td>
+            </tr>
+            
+            <tr>
+                <th><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_separate');}-->:</th>
+                <td>
+                   <input type="text"  name="separate" value="{$separate}" />
+                </td>
+                <td class="commit">
+	                 <span class="d"><!--{eval echo lang(BOAN_BATCHPOST_NAME, 'onekey_one_separate_comment');}--></span>
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
+	<div style="padding:10px;">
+    	<button type="submit" onclick="$('onekeysubmit').value=true;">{lang boan_batchpost:reception_submit}</button>
+    </div>
+</form>
+</div>
+
+<script>
+function textareasize(obj, op) {
+	if(!op) {
+		if(obj.scrollHeight > 70) {
+			obj.style.height = (obj.scrollHeight < 300 ? obj.scrollHeight - heightag: 300) + 'px';
+			if(obj.style.position == 'absolute') {
+				obj.parentNode.style.height = (parseInt(obj.style.height) + 20) + 'px';
+			}
+		}
+	} else {
+		if(obj.style.position == 'absolute') {
+			obj.style.position = '';
+			obj.style.width = '';
+			obj.parentNode.style.height = '';
+		} else {
+			obj.parentNode.style.height = obj.parentNode.offsetHeight + 'px';
+			obj.style.width = BROWSER.ie > 6 || !BROWSER.ie ? '90%' : '600px';
+			obj.style.position = 'absolute';
+		}
+	}
+}
+</script>
+<!--{eval include template('boan_batchpost:footer');}-->

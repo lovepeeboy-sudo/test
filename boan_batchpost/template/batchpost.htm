@@ -1,0 +1,547 @@
+<!--{eval include template('boan_batchpost:header_common');}-->
+<!--{eval include template('boan_batchpost:header');}--> 
+<style>
+	.info{
+		margin: 0px;
+		padding: 0px;
+		font-size: 12px;
+	}
+	.title{
+		 font-weight: bold;
+		 color: #000;
+		 margin: 2px;
+		 font-size: 12px;
+		 padding:4px;
+	}
+	.red{
+		color:red;
+	}
+	.explain{
+		margin:2px;
+		padding:4px;
+	}
+	.wu-example {
+		position: relative;
+		padding: 45px 15px 15px;
+		margin: 15px 0;
+		background-color: #fafafa;
+		box-shadow: inset 0 3px 6px rgb(0 0 0 / 5%);
+		border-color: #e5e5e5 #eee #eee;
+		border-style: solid;
+		border-width: 1px 0;
+	}
+	#uploader .queueList {
+		margin: 20px;
+		border: 3px dashed #e6e6e6;
+	}
+	#uploader .placeholder {
+		min-height: 350px;
+		padding-top: 178px;
+		text-align: center;
+		color: #cccccc;
+		font-size: 18px;
+		position: relative;
+	}
+	
+	#uploader .placeholder .webuploader-pick {
+		font-size: 18px;
+		background: #00b7ee;
+		border-radius: 3px;
+		line-height: 44px;
+		padding: 0 30px;
+		*width: 120px;
+		color: #fff;
+		display: inline-block;
+		margin: 0 auto 20px auto;
+		cursor: pointer;
+		box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+	}
+	
+	.webuploader-container {
+		position: relative;
+	}
+	
+	.webuploader-element-invisible {
+		position: absolute !important;
+		clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+		clip: rect(1px,1px,1px,1px);
+	}
+	
+	#uploader .statusBar {
+		height: 63px;
+		border-top: 1px solid #dadada;
+		padding: 0 20px;
+		line-height: 63px;
+		vertical-align: middle;
+		position: relative;
+	}
+	#uploader .statusBar .progress {
+		border: 1px solid #1483d8;
+		width: 198px;
+		background: #fff;
+		height: 18px;
+		position: relative;
+		display: inline-block;
+		text-align: center;
+		line-height: 20px;
+		color: #6dbfff;
+		position: relative;
+		margin: 0 10px 0 0;
+	}
+	#uploader .statusBar .info {
+		display: inline-block;
+		font-size: 14px;
+		color: #666666;
+	}
+	.element-invisible {
+		position: absolute !important;
+		clip: rect(1px 1px 1px 1px);
+		clip: rect(1px,1px,1px,1px);
+	}
+	
+	#uploader .filelist {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	    overflow: auto;
+	}
+	
+	#uploader .filelist li {
+		width: 220px;
+		height: 240px;
+		background: url({$_G['siteurl']}source/plugin/boan_batchpost/images/bg.png) no-repeat;
+		background-size:220px 220px;
+		text-align: center;
+		margin: 0 8px 20px 0;
+		position: relative;
+		display: inline;
+		float: left;
+		overflow: hidden;
+		font-size: 12px;
+	}
+	#uploader .filelist li p.title {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		text-align:center;
+		top: 5px;
+		text-indent: 5px;
+		text-align: left;
+		z-index:99;
+	}
+	#uploader .filelist li div.imgWrap {
+		position: relative;
+		z-index: 2;
+		top:30px;
+		vertical-align: middle;
+		overflow: auto;
+		width: 220px;
+		height:200px;
+		-webkit-transform-origin: 50% 50%;
+		-moz-transform-origin: 50% 50%;
+		-o-transform-origin: 50% 50%;
+		-ms-transform-origin: 50% 50%;
+		transform-origin: 50% 50%;
+		-webit-transition: 200ms ease-out;
+		-moz-transition: 200ms ease-out;
+		-o-transition: 200ms ease-out;
+		-ms-transition: 200ms ease-out;
+		transition: 200ms ease-out;
+	}
+	
+	#uploader .filelist li div.imgWrap{
+		margin:0px;
+		padding:0px;
+	}
+	
+	#uploader .filelist li div.imgWrap dt{
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		text-align:left;
+		padding:6px;
+		
+	}
+	#uploader .filelist li div.imgWrap dt img{
+		width:16px;
+		height:16px;
+		display:none;
+	}
+	#uploader .filelist li img {
+		width: 100%;
+		height:100%;
+		vertical-align: middle;
+	}
+	
+	#uploader .filelist li p.progress {
+		position: absolute;
+		width: 100%;
+		bottom: 0;
+		left: 0;
+		height: 8px;
+		overflow: hidden;
+		z-index: 50;
+		margin: 0;
+		border-radius: 0;
+		background: none;
+		-webkit-box-shadow: 0 0 0;
+	}
+	
+	#uploader .filelist li p.progress span {
+		display: none;
+		overflow: hidden;
+		width: 0;
+		height: 100%;
+		background: #1483d8 url({$_G['siteurl']}source/plugin/boan_batchpost/images/progress.png) repeat-x;
+	
+		-webit-transition: width 200ms linear;
+		-moz-transition: width 200ms linear;
+		-o-transition: width 200ms linear;
+		-ms-transition: width 200ms linear;
+		transition: width 200ms linear;
+	
+		-webkit-animation: progressmove 2s linear infinite;
+		-moz-animation: progressmove 2s linear infinite;
+		-o-animation: progressmove 2s linear infinite;
+		-ms-animation: progressmove 2s linear infinite;
+		animation: progressmove 2s linear infinite;
+	
+		-webkit-transform: translateZ(0);
+	}
+	
+	#uploader .filelist li .success {
+		display: block;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		height: 40px;
+		width: 100%;
+		z-index: 200;
+		background: url({$_G['siteurl']}source/plugin/boan_batchpost/images/success.png) no-repeat right bottom;
+	}
+
+	
+	
+	@-webkit-keyframes progressmove {
+		0% {
+		   background-position: 0 0;
+		}
+		100% {
+		   background-position: 17px 0;
+		}
+	}
+	@-moz-keyframes progressmove {
+		0% {
+		   background-position: 0 0;
+		}
+		100% {
+		   background-position: 17px 0;
+		}
+	}
+	@keyframes progressmove {
+		0% {
+		   background-position: 0 0;
+		}
+		100% {
+		   background-position: 17px 0;
+		}
+	}
+	
+	#uploader p {
+		margin: 0;
+	}
+	
+	.progress {
+		background-image: -webkit-linear-gradient(top,#ebebeb 0,#f5f5f5 100%);
+		background-image: linear-gradient(to bottom,#ebebeb 0,#f5f5f5 100%);
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffebebeb',endColorstr='#fff5f5f5',GradientType=0);
+	}
+	#uploader .filelist div.file-panel {
+		position: absolute;
+		height: 30px;
+		background: rgba( 255, 155, 155, 0.5 );
+		width: 100%;
+		top: 0;
+		left: 0;
+		overflow: hidden;
+		z-index: 300;
+	}
+	#uploader .filelist div.file-panel span.cancel {
+		background-position: -48px -24px;
+	}
+	#uploader .filelist div.file-panel span {
+		width: 24px;
+		height: 24px;
+		display: inline;
+		float: right;
+		text-indent: -9999px;
+		overflow: hidden;
+		background: url({$_G['siteurl']}source/plugin/boan_batchpost/images/icons.png) no-repeat;
+		margin: 5px 1px 1px;
+		cursor: pointer;
+	}
+	#uploader .statusBar .btns {
+		position: absolute;
+		top: 10px;
+		right: 20px;
+		line-height: 40px;
+	}
+	#filePicker2 {
+		display: inline-block;
+		float: left;
+	}
+	#uploader .statusBar .btns .webuploader-pick, #uploader .statusBar .btns .uploadBtn, #uploader .statusBar .btns .uploadBtn.state-uploading, #uploader .statusBar .btns .uploadBtn.state-paused {
+		background: #ffffff;
+		border: 1px solid #cfcfcf;
+		color: #565656;
+		padding: 0 18px;
+		display: inline-block;
+		border-radius: 3px;
+		margin-left: 10px;
+		cursor: pointer;
+		font-size: 14px;
+		float: left;
+	}
+	
+	#uploader .statusBar .btns .webuploader-pick-hover,
+	#uploader .statusBar .btns .uploadBtn:hover,
+	#uploader .statusBar .btns .uploadBtn.state-uploading:hover,
+	#uploader .statusBar .btns .uploadBtn.state-paused:hover {
+		background: #f0f0f0;
+	}
+	
+	#uploader .statusBar .progress {
+		border: 1px solid #1483d8;
+		width: 198px;
+		background: #fff;
+		height: 18px;
+		position: relative;
+		display: inline-block;
+		text-align: center;
+		line-height: 20px;
+		color: #6dbfff;
+		position: relative;
+		margin: 0 10px 0 0;
+	}
+	
+	#uploader .statusBar .progress span.percentage {
+		width: 0;
+		height: 100%;
+		left: 0;
+		top: 0;
+		background: #1483d8;
+		position: absolute;
+	}
+	#uploader .statusBar .progress span.text {
+		position: relative;
+		z-index: 10;
+	}
+	#uploader .statusBar .btns .uploadBtn {
+		background: #00b7ee;
+		color: #fff;
+		border-color: transparent;
+	}
+	
+	#uploader .statusBar .btns .uploadBtn:hover {
+		background: #00a2d4;
+	}
+	
+</style>
+<script src="{$_G['siteurl']}source/plugin/boan_batchpost/js/jquery-1.11.0.min.js"></script>
+<script>
+	var boan_jq=$.noConflict();
+</script>
+<script src="{$_G['siteurl']}source/plugin/boan_batchpost/js/webuploader.min.js"></script>
+<script src="{$_G['siteurl']}source/plugin/boan_batchpost/js/cos-auth.min.js" charset="utf-8"></script>
+
+
+<div class="info">
+	<div class="title">{lang boan_batchpost:onekey_setinfo}</div>
+	<div class="explain">
+        <span >{lang boan_batchpost:onekey_postfid}</span>
+        <span class="red">{$forum['name']}</span>
+        <span>{lang boan_batchpost:onekey_price}</span>
+        <span class="red">{$cache['att_price']}</span>
+        <span>{lang boan_batchpost:onekey_readperm}</span>
+        <span class="red">{$ratitle}</span>
+        <span>{lang boan_batchpost:onekey_tags}</span>
+        <span class="red">{$cache['att_tags']}</span>
+        <span>{lang boan_batchpost:onekey_type}</span>
+        <span class="red">{$typetitle}</span>
+    </div>
+    <div class="explain">
+    	<span>{lang boan_batchpost:onekey_info1}<a href="{$url}">{lang boan_batchpost:onekey_back}</a></span>
+    </div>
+</div>
+
+<div id="uploader" class="wu-example">
+    <div class="queueList">
+        <div id="dndArea" class="placeholder">
+            <div id="filePicker">{lang boan_batchpost:onekey_select}</div>
+            <p>{lang boan_batchpost:onekey_info2}{$vars['previewext']}{lang boan_batchpost:onekey_info3}</p>
+        </div>
+    </div>
+    <div class="statusBar" style="display:none;">
+        <div class="progress" style="display: none;">
+            <span class="text">0%</span>
+            <span class="percentage" style="width: 0%;"></span>
+        </div><div class="info">{lang boan_batchpost:onekey_info4}</div>
+        <div class="btns">
+            <div id="filePicker2" class="webuploader-container">{lang boan_batchpost:onekey_then}</div>
+            <div class="uploadBtn state-pedding">{lang boan_batchpost:onekey_start}</div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden"  id = "hash" value = "{$hash}"/>
+<input type="hidden"  id = "formhash" value = "{$formhash}"/>
+<input type="hidden"  id = "hlongurl" value = "{$hlongurl}"/>
+<input type="hidden"  id = "ossserver" value = "{$ossserver}"/>
+<script>
+
+getMimes = function(file_types){
+	EXT_MIME_MAP = {
+	'3gp': 'video/3gpp',
+	'7z': 'application/x-7z-compressed',
+	'aac': 'audio/aac',
+	'abw': 'application/x-abiword',
+	'arc': 'application/x-freearc',
+	'avi': 'video/x-msvideo',
+	'apk': 'application/vnd.android.package-archive',
+	'azw': 'application/vnd.amazon.ebook',
+	'bin': 'application/octet-stream',
+	'bmp': 'image/bmp',
+	'bz': 'application/x-bzip',
+	'bz2': 'application/x-bzip2',
+	'bzip2': 'application/x-bzip2',
+	'chm': 'application/vnd.ms-htmlhelp',
+	'csh': 'application/x-csh',
+	'css': 'text/css',
+	'csv': 'text/csv',
+	'doc': 'application/msword',
+	'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+	'eot': 'application/vnd.ms-fontobject',
+	'epub': 'application/epub+zip',
+	'flv': 'video/x-flv',
+	'gif': 'image/gif',
+	'gz': 'application/gzip',
+	'htm': 'text/html',
+	'html': 'text/html',
+	'ico': 'image/vnd.microsoft.icon',
+	'ics': 'text/calendar',
+	'jar': 'application/java-archive',
+	'jpeg': 'image/jpeg',
+	'jpg': 'image/jpeg',
+	'js': 'text/javascript',
+	'json': 'application/json',
+	'jsonld': 'application/ld+json',
+	'm4a': 'audio/mp4',
+	'mid': 'audio/midi',
+	'midi': 'audio/midi',
+	'mjs': 'text/javascript',
+	'mov': 'video/quicktime',
+	'mkv': 'video/x-matroska',
+	'mp3': 'audio/mpeg',
+	'mp4': 'video/mp4',
+	'mp4a': 'audio/mp4',
+	'mp4v': 'video/mp4',
+	'mpeg': 'video/mpeg',
+	'mpkg': 'application/vnd.apple.installer+xml',
+	'odp': 'application/vnd.oasis.opendocument.presentation',
+	'ods': 'application/vnd.oasis.opendocument.spreadsheet',
+	'odt': 'application/vnd.oasis.opendocument.text',
+	'oga': 'audio/ogg',
+	'ogv': 'video/ogg',
+	'ogx': 'application/ogg',
+	'opus': 'audio/opus',
+	'otf': 'font/otf',
+	'pdf': 'application/pdf',
+	'php': 'application/php',
+	'png': 'image/png',
+	'ppt': 'application/vnd.ms-powerpoint',
+	'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+	'rar': 'application/x-rar-compressed',
+	'rtf': 'application/rtf',
+	'sh': 'application/x-sh',
+	'svg': 'image/svg+xml',
+	'swf': 'application/x-shockwave-flash',
+	'tar': 'application/x-tar',
+	'tif': 'image/tiff',
+	'tiff': 'image/tiff',
+	'ts': 'video/mp2t',
+	'ttf': 'font/ttf',
+	'txt': 'text/plain',
+	'vsd': 'application/vnd.visio',
+	'wav': 'audio/wav',
+	'wma': 'audio/x-ms-wma',
+	'wmv': 'video/x-ms-asf',
+	'weba': 'audio/webm',
+	'webm': 'video/webm',
+	'webp': 'image/webp',
+	'woff': 'font/woff',
+	'woff2': 'font/woff2',
+	'xhtml': 'application/xhtml+xml',
+	'xls': 'application/vnd.ms-excel',
+	'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+	'xml': 'application/xml',
+	'xul': 'application/vnd.mozilla.xul+xml',
+	'zip': 'application/zip'
+	};
+	
+	var exts = "",
+		mimes = "";
+	if(file_types.indexOf('*.*') < 0) {
+		exts = file_types.replace(/\*\./g, '').replace(/;/g, ',');
+		var extsArray = jQuery.grep(exts.split(','), function (s) {
+			return s.length > 0
+		});
+		
+		exts = jQuery.grep(
+			extsArray, 
+			function (s) {
+				return s.length > 0
+			}
+		).join(",");
+		
+		mimes = jQuery.grep(
+			jQuery.map(extsArray, function (ext) {
+				return EXT_MIME_MAP[ext];
+			}),
+			function (s) {
+				return s.length > 0
+			}
+		).join(",");
+			
+   }
+	return {'mimes':mimes,'exts':exts};
+}
+var separate = '{$cache['separate']}';
+var pmethod = '{$cache['pmethod']}';
+var exts = "{$vars['previewext']}";
+var accept = getMimes(exts);
+var Uploader = WebUploader.create({
+			server:'{$upload_url}',
+			formData:{$post_params},
+			pick:{id:'#filePicker'},
+			fileVal:'{$fileVal}',
+			dnd: '#uploader .queueList',
+			disableGlobalDnd: true,
+			compress:{$compress},
+			threads:{$process_count},
+			accept:{
+				title:'{lang boan_batchpost:onekey_updoc}',
+				extensions: accept['exts'],
+				mimeTypes: accept['mimes'],
+			},
+			fileSingleSizeLimit:{$postmaxsize},
+			fileNumLimit:3000,
+		});
+</script>
+<script src="{$_G['siteurl']}source/plugin/boan_batchpost/js/onekey.js" charset="utf-8"></script>
+
+<!--{eval include template('boan_batchpost:footer');}-->
